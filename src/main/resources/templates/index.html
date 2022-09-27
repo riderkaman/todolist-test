@@ -4,6 +4,12 @@
     <title>루트 페이지</title>
 </head>
 <body>
-    루트 페이지입니다.
+    <div th:if="${session.userInfo ne null}">
+        <button type="button" >TODO List 바로가기</button>
+    </div>
+    <div th:if="${session.userInfo eq null}">
+        <button type="button" onclick="location.href='/user/register'">로그인</button>
+        <button type="button" onclick="location.href='/user/register'">회원가입</button>
+    </div>
 </body>
 </html>
