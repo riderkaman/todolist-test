@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>회원가입</title>
+</head>
+<body>
+<h1>회원가입</h1>
+    <form th:action="@{/user/register}" th:object="${userRegisterForm}" method="post">
+        <div th:replace="common/form_errors :: formErrorsFragment"></div>
+        <div>
+            <label for="memberId">사용자ID</label>
+            <input type="text" th:field="*{memberId}">
+        </div>
+        <div>
+            <label for="password">비밀번호</label>
+            <input type="password" th:field="*{password}">
+        </div>
+        <div>
+            <label for="passwordConfirm">비밀번호 확인</label>
+            <input type="password" th:field="*{passwordConfirm}">
+        </div>
+        <div>
+            <label for="nickname">닉네임</label>
+            <input type="text" th:field="*{nickname}">
+        </div>
+        <button type="submit">가입</button>
+        <button type="button" onclick="location.href='/' ">취소</button>
+    </form>
+</body>
+</html>
