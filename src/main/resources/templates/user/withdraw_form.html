@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>회원탈퇴</title>
+</head>
+<body>
+<div>
+    <span th:text="${nickname}">사용자</span> 님, 탈퇴하시겠습니까?<br>
+    탈퇴하시려면 비밀번호를 입력해 주시기 바랍니다.
+</div>
+  <form th:action="@{/user/withdraw}" method="post">
+      <label for="password">비밀번호</label>
+      <input type="password" name="password" id="password">
+      <button type="submit">탈퇴하기</button>
+  </form>
+
+</body>
+</html>
