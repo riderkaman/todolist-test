@@ -3,6 +3,7 @@ package com.example.todolist.controller;
 import com.example.todolist.form.UserRegisterForm;
 import com.example.todolist.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -36,10 +37,24 @@ public class UserController {
                     "패스워드가 일치하지 않습니다.");
         }
 
-        userService.registerUser(userRegisterForm.getMemberId(), userRegisterForm.getPassword(), userRegisterForm.getNickname());
+        try {
+            userService.registerUser(userRegisterForm.getMemberId(), userRegisterForm.getPassword(), userRegisterForm.getNickname());
+        }catch(DataIntegrityViolationException e) {
+            e.printStackTrace();
+            bindingResult.reject("signupFailed", "이미 등록된 사용자입니다.");
+            return "user/register_form";
+        }catch(Exception e) {
+            e.printStackTrace();
+            bindingResult.reject("signupFailed", e.getMessage());
+            return "user/register_form";
+        }
 
         return "redirect:/";
     }
 
+    @GetMapping("/login")
+    public String login() {
+        return "user/login_form";
+    }
 
 }

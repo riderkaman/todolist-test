@@ -1,14 +1,15 @@
-<html>
+<html xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>루트 페이지</title>
 </head>
 <body>
-    <div th:if="${session.userInfo ne null}">
+    <div sec:authorize="isAuthenticated()">
         <button type="button" >TODO List 바로가기</button>
+        <button type="button" >로그아웃</button>
     </div>
-    <div th:if="${session.userInfo eq null}">
-        <button type="button" onclick="location.href='/user/register'">로그인</button>
+    <div sec:authorize="isAnonymous()">
+        <button type="button" onclick="location.href='/user/login'">로그인</button>
         <button type="button" onclick="location.href='/user/register'">회원가입</button>
     </div>
 </body>
