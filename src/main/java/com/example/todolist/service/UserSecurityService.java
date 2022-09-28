@@ -30,6 +30,11 @@ public class UserSecurityService implements UserDetailsService {
         }
 
         User user = savedUser.get();
+
+        if ("WITHDRAW".equals(user.getUserStatus().getValue())) {
+            throw new UsernameNotFoundException("탈퇴한 사용자입니다.");
+        }
+
         List<GrantedAuthority> authorities = new ArrayList<>();
         if ("admin".equals(username)) {
             authorities.add(new SimpleGrantedAuthority(UserRole.ADMIN.getValue()));
