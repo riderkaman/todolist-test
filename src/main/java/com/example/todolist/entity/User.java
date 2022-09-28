@@ -38,4 +38,7 @@ public class User {
        this.userStatus = userStatus;
     }
 
+    public void withdraw() {
+        this.userStatus = userStatus.WITHDRAW;
+    }
 }
