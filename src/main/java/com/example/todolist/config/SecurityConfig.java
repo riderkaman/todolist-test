@@ -23,7 +23,10 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
-        http.authorizeRequests().antMatchers("/**").permitAll()
+        http.authorizeRequests()
+                .antMatchers("/todo/**").authenticated()
+                .antMatchers("/user/**").permitAll()
+                .antMatchers("/").permitAll()
                 .and()
                     .csrf().ignoringAntMatchers("/h2-console/**")
                 .and()
