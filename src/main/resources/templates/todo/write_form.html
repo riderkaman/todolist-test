@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TODO 쓰기</title>
+</head>
+<body>
+
+  <form th:action="@{/todo/write}" th:object="${todoWriteForm}" method="post">
+      <div th:replace="common/form_errors :: formErrorsFragment"></div>
+      <div>
+          <label for="content">내용</label><br>
+          <textarea type="text" th:field="*{content}" />
+      </div>
+      <button type="submit">등록</button>
+      <button type="button" onclick="location.href='/todo/list_view' ">취소</button>
+  </form>
+</body>
+</html>

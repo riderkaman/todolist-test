@@ -8,7 +8,8 @@
 </head>
 <body>
     <button onclick="writeTodo()">쓰기</button>
-
+    <button onclick="sortTodo('RECENT')">최근보기</button>
+    <button onclick="sortTodo('ALL')">전체보기</button>
     <table>
         <thead>
             <tr>
@@ -39,8 +40,12 @@
 
     function writeTodo() {
         console.log("테스트");
+        location.href = "/todo/write";
     }
 
+    function sortTodo(sep) {
+        console.log(sep);
+    }
 
 </script>
 </body>
