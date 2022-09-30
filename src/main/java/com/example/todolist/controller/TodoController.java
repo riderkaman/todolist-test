@@ -69,4 +69,13 @@ public class TodoController {
 
         return todoList;
     }
+
+    @PostMapping("/changeStatus")
+    @ResponseBody
+    public String changeTodoStatus(String status, String id) {
+
+        todoService.changeTodoStatus(status, id);
+
+        return "ok";
+    }
 }
