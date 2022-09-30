@@ -21,7 +21,7 @@
                 </th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="todoListBody">
             <tr>
                 <td>
                     오늘할일
@@ -38,14 +38,73 @@
 
 <script>
 
+   $(function () {
+       sortTodo("ALL")
+   });
+
     function writeTodo() {
-        console.log("테스트");
         location.href = "/todo/write";
     }
 
     function sortTodo(sep) {
-        console.log(sep);
+
+        $.ajax({
+            url: "/todo/list",
+            type: "get",
+            data: {"sortSep" : sep},
+
+            success: function (data) {
+                viewTodoList(data);
+            }
+        });
     }
+
+   function viewTodoList(data) {
+        $("#todoListBody").empty();
+
+        $.each(data, function(i, item) {
+            let tr = $("<tr></tr>")
+            let tempId = '0';
+            $.each(item, function(key,value){
+                if (key === 'id') {
+                    tempId = value;
+                    return true;
+                } else if (key === 'todoStatus') {
+                    makeStatusRadio(value, tempId).appendTo(tr);
+                } else {
+                    $("<td></td>").html(value).appendTo(tr);
+                }
+            });
+            $("#todoListBody").append(tr);
+        })
+   }
+
+   function makeStatusRadio(value, tempId) {
+        if (value === 'PLAN') {
+            return $("<td>" +
+                "<input type='radio' name='plan"+ tempId +"' value='PLAN' checked='checked'> 할일  " +
+                "<input type='radio' name='progress"+ tempId +"' value='PROGRESS'> 진행중  " +
+                "<input type='radio' name='complete"+ tempId +"' value='COMPLETE'> 완료됨  " +
+                "<input type='hidden' name='tempId' value='" + tempId +"'>" +
+                "</td>")
+        } else if (value === 'PROGRESS') {
+            return $("<td>" +
+                "<input type='radio' name='plan"+ tempId +"' value='PLAN'> 할일  " +
+                "<input type='radio' name='progress"+ tempId +"' value='PROGRESS' checked='checked'> 진행중  " +
+                "<input type='radio' name='complete"+ tempId +"' value='COMPLETE'> 완료됨  " +
+                "<input type='hidden' name='tempId' value='" + tempId +"'>" +
+                "</td>")
+        } else if (value === 'COMPLETE') {
+            return $("<td>" +
+                "<input type='radio' name='plan"+ tempId +"' value='PLAN'> 할일  " +
+                "<input type='radio' name='progress"+ tempId +"' value='PROGRESS'> 진행중 " +
+                "<input type='radio' name='complete"+ tempId +"' value='COMPLETE' checked='checked'> 완료됨  " +
+                "<input type='hidden' name='tempId' value='" + tempId +"'>" +
+                "</td>")
+        }
+
+        return $("<td></td>");
+   }
 
 </script>
 </body>

@@ -1,5 +1,6 @@
 package com.example.todolist.controller;
 
+import com.example.todolist.dto.TodoDto;
 import com.example.todolist.entity.User;
 import com.example.todolist.form.TodoWriteForm;
 import com.example.todolist.service.TodoService;
@@ -14,8 +15,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -51,4 +55,18 @@ public class TodoController {
         return "todo/list_view";
     }
 
+    @GetMapping("/list")
+    @ResponseBody
+    public List<TodoDto> todoList(String sortSep) {
+
+        List<TodoDto> todoList = new ArrayList<>();
+
+        if ("ALL".equals(sortSep)) {
+            todoList = todoService.findAllTodo();
+        } else if ("RECENT".equals(sortSep)) {
+            todoList = todoService.findLastOneTodo();
+        }
+
+        return todoList;
+    }
 }
