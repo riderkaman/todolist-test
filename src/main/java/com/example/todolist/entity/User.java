@@ -1,10 +1,8 @@
 package com.example.todolist.entity;
 
 import com.example.todolist.constants.UserStatus;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -13,6 +11,7 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@ToString(exclude = {"todoList"})
 public class User {
 
     @Id
@@ -33,6 +32,7 @@ public class User {
     private UserStatus userStatus;
 
     @OneToMany(mappedBy = "user")
+    @JsonIgnore
     private List<Todo> todoList = new ArrayList<>();
 
     @Builder

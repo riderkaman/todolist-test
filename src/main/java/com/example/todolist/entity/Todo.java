@@ -1,10 +1,8 @@
 package com.example.todolist.entity;
 
 import com.example.todolist.constants.TodoStatus;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -18,6 +16,7 @@ import java.time.LocalDateTime;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@ToString(exclude = {"user"})
 public class Todo extends AuditingFields {
 
     @Id
@@ -33,7 +32,8 @@ public class Todo extends AuditingFields {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private User user;
+    @JsonIgnore
+    private User user = new User();
 
     @Builder
     public Todo(String content, TodoStatus todoStatus, User user) {
@@ -41,4 +41,17 @@ public class Todo extends AuditingFields {
         this.todoStatus = todoStatus;
         this.user = user;
     }
+
+    public void changeTodoStatusPlan() {
+        this.todoStatus = todoStatus.PLAN;
+    }
+
+    public void changeTodoStatusProgress() {
+        this.todoStatus = todoStatus.PROGRESS;
+    }
+
+    public void changeTodoStatusComplete() {
+        this.todoStatus = todoStatus.COMPLETE;
+    }
+
 }

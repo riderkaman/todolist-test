@@ -7,9 +7,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
+@Transactional
 public class UserService {
 
     private final UserRepository userRepository;
@@ -28,17 +30,17 @@ public class UserService {
         return user;
     }
 
+    @Transactional(readOnly = true)
     public User findOneUser(String memberId) {
         return userRepository.findByMemberId(memberId).orElse(null);
     }
-
+    @Transactional(readOnly = true)
     public boolean isCorrectPassword(User user, String password) {
         return passwordEncoder.matches(password, user.getPassword());
     }
 
     public void userWithdraw(User user) {
         user.withdraw();
-        userRepository.save(user);
     }
 
 }

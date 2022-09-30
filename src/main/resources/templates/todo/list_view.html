@@ -5,6 +5,8 @@
     <title>TODO LIST 보기</title>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
+    <meta name="_csrf" th:content="${_csrf.token}">
 </head>
 <body>
     <button onclick="writeTodo()">쓰기</button>
@@ -40,6 +42,16 @@
 
    $(function () {
        sortTodo("ALL")
+
+        $(document).on('click', "input[name^='status']", function () {
+            console.log($(this).val());
+
+            let arr = $(this).val().split("_");
+            let status = arr[0];
+            let id = arr[1];
+
+            changeTodoStatus(status, id);
+        })
    });
 
     function writeTodo() {
@@ -82,28 +94,43 @@
    function makeStatusRadio(value, tempId) {
         if (value === 'PLAN') {
             return $("<td>" +
-                "<input type='radio' name='plan"+ tempId +"' value='PLAN' checked='checked'> 할일  " +
-                "<input type='radio' name='progress"+ tempId +"' value='PROGRESS'> 진행중  " +
-                "<input type='radio' name='complete"+ tempId +"' value='COMPLETE'> 완료됨  " +
-                "<input type='hidden' name='tempId' value='" + tempId +"'>" +
+                "<input type='radio' name='status"+ tempId +"' value='PLAN_"+ tempId +"' checked='checked'> 할일  " +
+                "<input type='radio' name='status"+ tempId +"' value='PROGRESS_"+ tempId +"'> 진행중  " +
+                "<input type='radio' name='status"+ tempId +"' value='COMPLETE_"+ tempId +"'> 완료됨  " +
                 "</td>")
         } else if (value === 'PROGRESS') {
             return $("<td>" +
-                "<input type='radio' name='plan"+ tempId +"' value='PLAN'> 할일  " +
-                "<input type='radio' name='progress"+ tempId +"' value='PROGRESS' checked='checked'> 진행중  " +
-                "<input type='radio' name='complete"+ tempId +"' value='COMPLETE'> 완료됨  " +
-                "<input type='hidden' name='tempId' value='" + tempId +"'>" +
+                "<input type='radio' name='status"+ tempId +"' value='PLAN_"+ tempId +"'> 할일  " +
+                "<input type='radio' name='status"+ tempId +"' value='PROGRESS_"+ tempId +"' checked='checked'> 진행중  " +
+                "<input type='radio' name='status"+ tempId +"' value='COMPLETE_"+ tempId +"'> 완료됨  " +
                 "</td>")
         } else if (value === 'COMPLETE') {
             return $("<td>" +
-                "<input type='radio' name='plan"+ tempId +"' value='PLAN'> 할일  " +
-                "<input type='radio' name='progress"+ tempId +"' value='PROGRESS'> 진행중 " +
-                "<input type='radio' name='complete"+ tempId +"' value='COMPLETE' checked='checked'> 완료됨  " +
-                "<input type='hidden' name='tempId' value='" + tempId +"'>" +
+                "<input type='radio' name='status"+ tempId +"' value='PLAN_"+ tempId +"'> 할일  " +
+                "<input type='radio' name='status"+ tempId +"' value='PROGRESS_"+ tempId +"'> 진행중 " +
+                "<input type='radio' name='status"+ tempId +"' value='COMPLETE_"+ tempId +"' checked='checked'> 완료됨  " +
                 "</td>")
         }
 
         return $("<td></td>");
+   }
+
+   function changeTodoStatus(status, id) {
+       let header = $("meta[name='_csrf_header']").attr('content');
+       let token = $("meta[name='_csrf']").attr('content');
+
+       $.ajax({
+           url: "/todo/changeStatus",
+           beforeSend: function(xhr){
+               xhr.setRequestHeader(header, token);
+           },
+           type: "post",
+           data: {"status" : status, "id" : id},
+
+           success: function (data) {
+               console.log(data);
+           }
+       });
    }
 
 </script>
