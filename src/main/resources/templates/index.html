@@ -5,7 +5,7 @@
 </head>
 <body>
     <div sec:authorize="isAuthenticated()">
-        <button type="button" >TODO List 바로가기</button>
+        <button type="button" onclick="location.href='/todo/list_view'">TODO List 바로가기</button>
         <button type="button" onclick="location.href='/user/logout'">로그아웃</button>
         <button type="button" onclick="location.href='/user/withdraw'">회원탈퇴</button>
     </div>

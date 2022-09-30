@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TODO LIST 보기</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+</head>
+<body>
+    <button onclick="writeTodo()">쓰기</button>
+
+    <table>
+        <thead>
+            <tr>
+                <th>
+                    내용
+                </th>
+                <th>
+                    상태
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    오늘할일
+                </td>
+                <td>
+                    <input type="radio" value="할일">
+                    <input type="radio" value="진행중">
+                    <input type="radio" value="완료됨">
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+
+<script>
+
+    function writeTodo() {
+        console.log("테스트");
+    }
+
+
+</script>
+</body>
+</html>
