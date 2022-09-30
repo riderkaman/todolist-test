@@ -5,8 +5,8 @@ import lombok.Getter;
 @Getter
 public enum TodoStatus {
 
-    PLAN("USE"),
-    PROGRESS("WITHDRAW"),
+    PLAN("PLAN"),
+    PROGRESS("PROGRESS"),
     COMPLETE("COMPLETE");
 
     private String value;
